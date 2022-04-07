@@ -1,6 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -49,8 +53,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String reading = "no reading";
 
-  void _incrementCounter() {
+  void _incrementCounter() async {
+    DatabaseEvent event = await ref.once();
+    print(event.snapshot.value);
+    print(ref.child);
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -58,6 +66,31 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  DatabaseReference ref = FirebaseDatabase.instance
+      .ref("UsersData/FEDJ225S8FfqZDTHntX3tMWQo7Y2/readings/");
+  // Get the Stream
+  @override
+  void initState() {
+    super.initState();
+    _activeListner();
+  }
+
+  void _activeListner() {
+    Stream<DatabaseEvent> stream = ref.onChildAdded;
+    stream.listen((DatabaseEvent event) {
+      dynamic value = {};
+      print('Event Type: ${event.type}'); // DatabaseEventType.value;
+      value = event.snapshot.value;
+      if (value != null) {
+        setState(() {
+          reading = value["temperature"].toString();
+        });
+        print(value["temperature"]);
+      } // DataSnapshot
     });
   }
 
@@ -99,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              reading,
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
