@@ -39,6 +39,7 @@ dependencies:
   flutter_spinkit: ^4.0.0
   firebase_database: ^9.0.9
   firebase_core: ^1.14.0
+  syncfusion_flutter_charts: ^20.1.48
 
 dev_dependencies:
   flutter_test:
