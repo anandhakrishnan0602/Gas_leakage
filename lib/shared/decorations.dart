@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 
-final bodyDecoration = BoxDecoration(
+const boxDecoration1 = BoxDecoration(
   gradient: LinearGradient(
-    colors:[ 
-      Colors.red,
-      Colors.white,
-      Colors.red
+    colors: [
+      Color.fromARGB(255, 1, 117, 250),
+      Color.fromARGB(255, 145, 201, 251)
     ],
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
-    stops: [
-      0.1,
-      0.5,
-      1
-    ]
-    
-    )
+    begin: Alignment.topLeft,
+    end: Alignment.centerRight,
+  ),
+);
+
+const boxDecoration2 = BoxDecoration(
+  color: Colors.white,
+  borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
 );
